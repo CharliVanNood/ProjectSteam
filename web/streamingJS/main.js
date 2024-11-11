@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d")
 const socket = new WebSocket("ws://localhost:8765");
 
 const resizeFactor = 5
+const useHex = true
+
 const gameResolution = [1920 / resizeFactor, 1080 / resizeFactor]
 
 canvas.width = window.innerWidth
@@ -62,7 +64,8 @@ function drawFrame(imageData) {
 
 function drawFrameDecompres(imageData, time) {
     data = imageData.split("#")
-    colors = data[0].split("_")
+    if (useHex) colors = data[0].replace("@", "").split("@")
+    else colors = data[0].split("@")
     pixels = data[1].split("_")
     x = 0
     y = 0
@@ -74,9 +77,14 @@ function drawFrameDecompres(imageData, time) {
         if (pixels[i] == "") continue
         pixelData = pixels[i].split("x")
         if (pixelData[0] == "-1") continue
-        color = colors[Number(pixelData[0])].split("x")
+        if (!useHex) {
+            color = colors[Number(pixelData[0])].split("x")
+        } else {
+            color = colors[Number(pixelData[0])]
+        }
         for (j = 0; j < Number(pixelData[1]); j++) {
-            ctx.fillStyle = "rgb(" + color[2] + ", " + color[1] + ", " + color[0] + ")"
+            if (!useHex) ctx.fillStyle = "rgb(" + color[2] + ", " + color[1] + ", " + color[0] + ")"
+            else ctx.fillStyle = "#" + color
             ctx.fillRect(x * pixelWidthX, y * pixelWidthY, pixelWidthX + 1, pixelWidthY + 1)
             x += 1
             if (x >= gameResolution[0]) {
