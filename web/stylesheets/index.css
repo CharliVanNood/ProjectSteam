@@ -1,0 +1,114 @@
+@font-face {
+    font-family: Avenir;
+    src: url("../fonts/AvenirLTStd-Book.otf");
+}
+@font-face {
+    font-family: AvenirBlack;
+    src: url("../fonts/AvenirLTStd-Black.otf");
+}
+
+body {
+    background-color: rgb(30, 30, 30);
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.menubar {
+    background-color: rgb(40, 40, 40, 0.8);
+    position: fixed;
+    height: 4vw;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.menubar .home {
+    position: absolute;
+    left: 1vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+.menubar .profile {
+    position: absolute;
+    right: 1vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+.menubar .search {
+    position: absolute;
+    right: 5vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+
+.backgroundImage {
+    position: absolute;
+    top: -75%;
+    width: 100%;
+    left: 0;
+    filter: blur(10px);
+    opacity: 0.25;
+}
+
+.announcements {
+    position: absolute;
+    top: 5vw;
+    left: 1vw;
+    height: 10vw;
+    width: 98vw;
+    overflow: hidden;
+    border-radius: 1vw;
+    cursor: pointer;
+}
+
+.announcements .playtime {
+    font-family: AvenirBlack;
+    font-size: 3vw;
+    color:rgb(255, 255, 255, 0.7);
+    position: absolute;
+    top: 3vw;
+    left: 0vw;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.games {
+    background-color: rgb(40, 40, 40);
+    position: absolute;
+    min-height: calc(100vh - 6vw);
+    width: 98vw;
+    left: 1vw;
+    top: 16vw;
+    border-radius: 1vw;
+    overflow: hidden;
+}
+
+.games .holder {
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    width: 96vw;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 2.1vw;
+    justify-items: center;
+    align-items: center;
+}
+
+.games .holder .game {
+    width: 10vw;
+    height: 15vw;
+    border-radius: 1vw;
+    background-color: rgb(67, 67, 67);
+    cursor: pointer;
+}
