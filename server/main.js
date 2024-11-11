@@ -4,7 +4,12 @@ const sharp = require('sharp');
 const fs = require('fs');
 const screenshot = require("screenshot-desktop");
 
-resizeFactor = 10
+resizeFactor = 5
+
+screenWidth = robot.getScreenSize().width
+screenHeight = robot.getScreenSize().height
+
+busy = false
 
 async function compress(image) {
     const colors = {};
@@ -15,8 +20,26 @@ async function compress(image) {
 
     const imageFlattened = image.image;
 
-    for (let x = 0; x < imageFlattened.length; x += 4 * resizeFactor) {
-        const pixelColor = `${Math.round(imageFlattened[x + 0] / 15) * 15}x${Math.round(imageFlattened[x + 1] / 15) * 15}x${Math.round(imageFlattened[x + 2] / 15) * 15}`;
+    screenX = 0
+    screenY = 0
+    rowsSkipping = false
+
+    let x = 0
+    while (x < imageFlattened.length) {
+        if (screenX >= screenWidth * 4) {
+            if (previousColor !== -1) {
+                pixels.push(`${previousColor}x${colorSequenceLength}_`);
+                colorSequenceLength = 0;
+                rowsSkipping = true
+            }
+            x += screenWidth * (4 * (resizeFactor - 1))
+            screenY += 1
+            screenX = 0
+            continue
+        }
+
+        const pixelColor = `${Math.round(imageFlattened[x + 0] / 20) * 20}x${Math.round(imageFlattened[x + 1] / 20) * 20}x${Math.round(imageFlattened[x + 2] / 20) * 20}`;
+        //const pixelColor = `${imageFlattened[x + 0]}x${imageFlattened[x + 1]}x${imageFlattened[x + 2]}`;
         const doesColorExist = colorExists(colors, pixelColor);
 
         if (doesColorExist === false) {
@@ -26,15 +49,19 @@ async function compress(image) {
             currentColor = doesColorExist;
         }
 
-        if (previousColor !== currentColor) {
+        if (previousColor !== currentColor || rowsSkipping) {
             if (previousColor !== -1) {
                 pixels.push(`${previousColor}x${colorSequenceLength}_`);
             }
             previousColor = currentColor;
             colorSequenceLength = 1;
+            if (rowsSkipping) rowsSkipping = false
         } else {
             colorSequenceLength += 1;
         }
+
+        screenX += 4 * resizeFactor
+        x += 4 * resizeFactor
     }
 
     if (previousColor !== -1) {
@@ -54,7 +81,7 @@ function colorExists(colors, color) {
 async function screenshotToArray() {
     /*const imgBuffer = await screenshot({ format: 'png' });
     const img = await sharp(imgBuffer).resize(400, 200, { kernel: sharp.kernel.nearest }).raw().toBuffer({ resolveWithObject: true });*/
-    const img = robot.screen.capture(0, 0, robot.getScreenSize().width, robot.getScreenSize().height);
+    const img = robot.screen.capture(0, 0, screenWidth, screenHeight);
 
     /*// Convert the raw pixel data to a buffer
     const imgBuffer = Buffer.from(screen.image);
@@ -67,15 +94,17 @@ async function screenshotToArray() {
 }
 
 async function sendFrame(ws) {
+    busy = true
     const startTime = Date.now();
     
     const imgArray = await screenshotToArray();
     console.log(`Finished screenshot in ${(Date.now() - startTime)}ms`);
+    busy = false
 
     const compressedImage = await compress(imgArray);
     console.log(`Finished image compression in ${(Date.now() - startTime)}ms`);
 
-    const message = JSON.stringify({ type: 'frame', data: compressedImage });
+    const message = JSON.stringify({ type: 'frame', data: compressedImage, time: Date.now() });
     ws.send(message);
 }
 
@@ -89,7 +118,7 @@ async function handleClient(ws, req) {
         if (data.type === 'connect') {
             console.log(`Connecting to game: ${data.game}`);
         } else if (data.type === 'getFrame') {
-            await sendFrame(ws);
+            if (!busy) await sendFrame(ws);
         }
     });
 
