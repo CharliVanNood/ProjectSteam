@@ -4,6 +4,8 @@ const sharp = require('sharp');
 const fs = require('fs');
 const screenshot = require("screenshot-desktop");
 
+resizeFactor = 10
+
 async function compress(image) {
     const colors = {};
     let pixels = [];
@@ -11,10 +13,10 @@ async function compress(image) {
     let colorSequenceLength = 0;
     let currentColor = -1;
 
-    const imageFlattened = image.data;
+    const imageFlattened = image.image;
 
-    for (let x = 0; x < imageFlattened.length; x += 4) {
-        const pixelColor = `${Math.round(imageFlattened[x + 2] / 15) * 15}x${Math.round(imageFlattened[x + 1] / 15) * 15}x${Math.round(imageFlattened[x + 0] / 15) * 15}`;
+    for (let x = 0; x < imageFlattened.length; x += 4 * resizeFactor) {
+        const pixelColor = `${Math.round(imageFlattened[x + 0] / 15) * 15}x${Math.round(imageFlattened[x + 1] / 15) * 15}x${Math.round(imageFlattened[x + 2] / 15) * 15}`;
         const doesColorExist = colorExists(colors, pixelColor);
 
         if (doesColorExist === false) {
@@ -50,11 +52,11 @@ function colorExists(colors, color) {
 }
 
 async function screenshotToArray() {
-    const imgBuffer = await screenshot({ format: 'png' });
-    const img = await sharp(imgBuffer).resize(400, 200, { kernel: sharp.kernel.nearest }).raw().toBuffer({ resolveWithObject: true });
-    /*const screen = robot.screen.capture(0, 0, robot.getScreenSize().width, robot.getScreenSize().height);
+    /*const imgBuffer = await screenshot({ format: 'png' });
+    const img = await sharp(imgBuffer).resize(400, 200, { kernel: sharp.kernel.nearest }).raw().toBuffer({ resolveWithObject: true });*/
+    const img = robot.screen.capture(0, 0, robot.getScreenSize().width, robot.getScreenSize().height);
 
-    // Convert the raw pixel data to a buffer
+    /*// Convert the raw pixel data to a buffer
     const imgBuffer = Buffer.from(screen.image);
 
     // Resize the image to 800x400 using sharp

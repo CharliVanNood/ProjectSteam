@@ -2,7 +2,8 @@ const canvas = document.getElementById("gameWindow")
 const ctx = canvas.getContext("2d")
 const socket = new WebSocket("ws://localhost:8765");
 
-const gameResolution = [400, 200]
+const resizeFactor = 10
+const gameResolution = [1920 / resizeFactor, 1080]
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -16,8 +17,8 @@ socket.onopen = function() {
 
     socket.send(JSON.stringify({"type": "connect", "game": 2}));
     
-    //socket.send(JSON.stringify({"type": "getFrame"}));
-    setInterval(requestFrames, 100)
+    socket.send(JSON.stringify({"type": "getFrame"}));
+    //setInterval(requestFrames, 150)
 };
 
 socket.onmessage = function(event) {
@@ -25,6 +26,7 @@ socket.onmessage = function(event) {
     console.log(data)
     if (data["type"] == "frame") {
         drawFrameDecompres(data["data"])
+        socket.send(JSON.stringify({"type": "getFrame"}));
     }
 };
 
