@@ -1,10 +1,10 @@
 @font-face {
     font-family: Avenir;
-    src: url("fonts/AvenirLTStd-Book.otf");
+    src: url("../fonts/AvenirLTStd-Book.otf");
 }
 @font-face {
     font-family: AvenirBlack;
-    src: url("fonts/AvenirLTStd-Black.otf");
+    src: url("../fonts/AvenirLTStd-Black.otf");
 }
 
 body {
@@ -28,6 +28,28 @@ body::-webkit-scrollbar {
     z-index: 10;
 }
 
+.menubar .home {
+    position: absolute;
+    left: 1vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+.menubar .profile {
+    position: absolute;
+    right: 1vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+.menubar .search {
+    position: absolute;
+    right: 5vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+
 .backgroundImage {
     position: absolute;
     top: -75%;
@@ -45,6 +67,7 @@ body::-webkit-scrollbar {
     width: 98vw;
     overflow: hidden;
     border-radius: 1vw;
+    cursor: pointer;
 }
 
 .announcements .playtime {
@@ -56,6 +79,7 @@ body::-webkit-scrollbar {
     left: 0vw;
     width: 100%;
     text-align: center;
+    cursor: pointer;
 }
 
 .games {
@@ -86,4 +110,5 @@ body::-webkit-scrollbar {
     height: 15vw;
     border-radius: 1vw;
     background-color: rgb(67, 67, 67);
+    cursor: pointer;
 }
