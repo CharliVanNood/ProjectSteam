@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameWindow")
 const ctx = canvas.getContext("2d")
 const socket = new WebSocket("ws://localhost:8765");
 
-const resizeFactor = 5
+const resizeFactor = 4
 const useHex = true
 
 const gameResolution = [1920 / resizeFactor, 1080 / resizeFactor]
@@ -77,15 +77,19 @@ function drawFrameDecompres(imageData, time) {
         if (pixels[i] == "") continue
         pixelData = pixels[i].split("x")
         if (pixelData[0] == "-1") continue
-        if (!useHex) {
-            color = colors[Number(pixelData[0])].split("x")
-        } else {
-            color = colors[Number(pixelData[0])]
+        if (pixelData[0] != "-2") {
+            if (!useHex) {
+                color = colors[Number(pixelData[0])].split("x")
+            } else {
+                color = colors[Number(pixelData[0])]
+            }
         }
         for (j = 0; j < Number(pixelData[1]); j++) {
-            if (!useHex) ctx.fillStyle = "rgb(" + color[2] + ", " + color[1] + ", " + color[0] + ")"
-            else ctx.fillStyle = "#" + color
-            ctx.fillRect(x * pixelWidthX, y * pixelWidthY, pixelWidthX + 1, pixelWidthY + 1)
+            if (pixelData[0] != "-2") {
+                if (!useHex) ctx.fillStyle = "rgb(" + color[2] + ", " + color[1] + ", " + color[0] + ")"
+                else ctx.fillStyle = "#" + color
+                ctx.fillRect(x * pixelWidthX, y * pixelWidthY, pixelWidthX + 0.5, pixelWidthY + 0.5)
+            }
             x += 1
             if (x >= gameResolution[0]) {
                 y += 1

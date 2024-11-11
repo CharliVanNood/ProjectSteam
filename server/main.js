@@ -4,7 +4,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const screenshot = require("screenshot-desktop");
 
-resizeFactor = 5
+resizeFactor = 4
 useHex = true
 
 screenWidth = robot.getScreenSize().width
@@ -14,6 +14,11 @@ busy = false
 
 const clamp = (value) => Math.max(0, Math.min(255, value));
 const toHex = (value) => clamp(value).toString(16).padStart(2, '0');
+
+previousFrame = []
+for (let i = 0; i < screenWidth * screenHeight * 4; i++) {
+    previousFrame.push(-1)
+}
 
 async function compress(image) {
     const colors = {};
@@ -61,6 +66,12 @@ async function compress(image) {
             currentColor = doesColorExist;
         }
 
+        if (currentColor == previousFrame[x]) {
+            currentColor = -2
+        }
+
+        if (currentColor != -2) previousFrame[x] = currentColor
+        
         if (previousColor !== currentColor || rowsSkipping) {
             if (previousColor !== -1) {
                 pixels.push(`${previousColor}x${colorSequenceLength}_`);
