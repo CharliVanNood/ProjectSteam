@@ -40,11 +40,11 @@ async def screenshot_to_array():
         screenshot = sct.grab(sct.monitors[1])
         img_array = np.array(screenshot)
         img = Image.fromarray(img_array)
-        img_resized = img.resize((1000, 500))
+        img_resized = img.resize((800, 400))
         img_array = np.array(img_resized)
         return img_array
 
-async def colorExists(colors, color):
+def colorExists(colors, color):
     try:
         a = colors[color]
         return a
@@ -62,7 +62,7 @@ async def compress(image):
 
     for pixel in image:
         pixel = f"{round(pixel[0] / 15) * 15}x{round(pixel[1] / 15) * 15}x{round(pixel[2] / 15) * 15}"
-        doesColorExist = await colorExists(colors, pixel)
+        doesColorExist = colorExists(colors, pixel)
         if doesColorExist == False:
             colors[pixel] = len(colors)
             currentColor = len(colors) - 1

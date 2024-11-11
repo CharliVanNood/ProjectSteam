@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameWindow")
 const ctx = canvas.getContext("2d")
 const socket = new WebSocket("ws://localhost:8765");
 
-const gameResolution = [1000, 500]
+const gameResolution = [400, 200]
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -15,8 +15,9 @@ socket.onopen = function() {
     console.log("Connected to WebSocket server");
 
     socket.send(JSON.stringify({"type": "connect", "game": 2}));
-
-    setInterval(requestFrames, 20)
+    
+    //socket.send(JSON.stringify({"type": "getFrame"}));
+    setInterval(requestFrames, 100)
 };
 
 socket.onmessage = function(event) {
