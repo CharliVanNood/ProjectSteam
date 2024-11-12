@@ -1,0 +1,92 @@
+@font-face {
+    font-family: Avenir;
+    src: url("../fonts/AvenirLTStd-Book.otf");
+}
+@font-face {
+    font-family: AvenirBlack;
+    src: url("../fonts/AvenirLTStd-Black.otf");
+}
+
+body {
+    background-color: rgb(30, 30, 30);
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.menubar {
+    background-color: rgb(40, 40, 40, 0.8);
+    position: fixed;
+    height: 4vw;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.menubar .home {
+    position: absolute;
+    left: 1vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+.menubar .profile {
+    position: absolute;
+    right: 1vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+.menubar .search {
+    position: absolute;
+    right: 5vw;
+    top: 0.5vw;
+    height: 3vw;
+    cursor: pointer;
+}
+
+#gameWindow {
+    background-color: black;
+    position: absolute;
+    top: 4vw;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 4vw);
+}
+.fpsBar {
+    font-family: AvenirBlack;
+    font-size: 1.5vw;
+    color:rgb(255, 255, 255);
+    position: absolute;
+    top: 4vw;
+    left: 1vw;
+}
+.pingBar {
+    font-family: AvenirBlack;
+    font-size: 1vw;
+    color:rgb(255, 255, 255);
+    position: absolute;
+    top: 6vw;
+    left: 1vw;
+}
+.dataBar {
+    font-family: AvenirBlack;
+    font-size: 1vw;
+    color:rgb(255, 255, 255);
+    position: absolute;
+    top: 7vw;
+    left: 1vw;
+}
+.qualityBar {
+    font-family: AvenirBlack;
+    font-size: 1vw;
+    color:rgb(255, 255, 255);
+    position: absolute;
+    top: 8vw;
+    left: 1vw;
+}
