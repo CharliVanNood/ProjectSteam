@@ -2,19 +2,26 @@ const canvas = document.getElementById("gameWindow")
 const ctx = canvas.getContext("2d")
 const socket = new WebSocket("ws://localhost:8765");
 
-const resizeFactor = 4
+var resizeFactor = 4
 const useHex = true
+var compressionLevel = 20
 
-const gameResolution = [1920 / resizeFactor, 1080 / resizeFactor]
+var gameResolution = [1920 / resizeFactor, 1080 / resizeFactor]
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
 startTime = Date.now()
 frames = 0
+fps = 20
+full = 60
 
 function requestFrames() {
-    socket.send(JSON.stringify({"type": "getFrame"}));
+    if (full <= 0) {
+        socket.send(JSON.stringify({"type": "getFrameFull"}));
+    } else {
+        socket.send(JSON.stringify({"type": "getFrame"}));
+    }
 }
 
 socket.onopen = function() {
@@ -63,6 +70,10 @@ function drawFrame(imageData) {
 
 
 function drawFrameDecompres(imageData, time) {
+    full -= 1
+    if (full < -1) {
+        full = 60
+    }
     data = imageData.split("#")
     if (useHex) colors = data[0].replace("@", "").split("@")
     else colors = data[0].split("@")
@@ -100,9 +111,24 @@ function drawFrameDecompres(imageData, time) {
 
     frames += 1
     if (Date.now() - startTime > 1000) {
-        document.getElementById("fpsBar").innerHTML = "FPS: " + frames
+        fps = frames
+        if (fps < 12) {
+            compressionLevel += 2
+        } else if (fps < 16) {
+            compressionLevel += 1
+        } else if (fps > 19) {
+            compressionLevel -= 1
+        }
+        if (compressionLevel > 25) compressionLevel = 25
+        if (compressionLevel < 5) compressionLevel = 5
+        //if (resizeFactor > 6) resizeFactor = 6
+        //if (resizeFactor < 3) resizeFactor = 3
+        socket.send(JSON.stringify({"type": "setCompressionQuality", "data": compressionLevel}));
+        //socket.send(JSON.stringify({"type": "setResizeFactor", "data": resizeFactor}));
+        document.getElementById("fpsBar").innerHTML = "FPS: " + fps
         document.getElementById("pingBar").innerHTML = "Ping: " + (Date.now() - time) + "ms"
         document.getElementById("dataBar").innerHTML = "Data: " + imageData.length
+        document.getElementById("qualityBar").innerHTML = "Quality: " + compressionLevel
         frames = 0
         startTime = Date.now()
     }

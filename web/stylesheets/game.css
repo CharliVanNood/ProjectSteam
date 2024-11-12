@@ -82,3 +82,11 @@ body::-webkit-scrollbar {
     top: 7vw;
     left: 1vw;
 }
+.qualityBar {
+    font-family: AvenirBlack;
+    font-size: 1vw;
+    color:rgb(255, 255, 255);
+    position: absolute;
+    top: 8vw;
+    left: 1vw;
+}

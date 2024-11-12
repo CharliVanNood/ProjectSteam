@@ -6,6 +6,7 @@ const screenshot = require("screenshot-desktop");
 
 resizeFactor = 4
 useHex = true
+compressionLevel = 19
 
 screenWidth = robot.getScreenSize().width
 screenHeight = robot.getScreenSize().height
@@ -20,7 +21,7 @@ for (let i = 0; i < screenWidth * screenHeight * 4; i++) {
     previousFrame.push(-1)
 }
 
-async function compress(image) {
+async function compress(image, full) {
     const colors = {};
     let pixels = [];
     let previousColor = -1;
@@ -49,11 +50,11 @@ async function compress(image) {
 
         let pixelColor = ""
         if (!useHex) {
-            pixelColor = `${Math.round(imageFlattened[x + 0] / 20) * 20}x${Math.round(imageFlattened[x + 1] / 20) * 20}x${Math.round(imageFlattened[x + 2] / 20) * 20}`;
+            pixelColor = `${Math.round(imageFlattened[x + 0] / compressionLevel) * compressionLevel}x${Math.round(imageFlattened[x + 1] / compressionLevel) * compressionLevel}x${Math.round(imageFlattened[x + 2] / compressionLevel) * compressionLevel}`;
         } else {
-            b = Math.round(imageFlattened[x + 0] / 20) * 20
-            g = Math.round(imageFlattened[x + 1] / 20) * 20
-            r = Math.round(imageFlattened[x + 2] / 20) * 20
+            b = Math.round(imageFlattened[x + 0] / compressionLevel) * compressionLevel
+            g = Math.round(imageFlattened[x + 1] / compressionLevel) * compressionLevel
+            r = Math.round(imageFlattened[x + 2] / compressionLevel) * compressionLevel
             pixelColor = `@${toHex(r)}${toHex(g)}${toHex(b)}`
         }
         //const pixelColor = `${imageFlattened[x + 0]}x${imageFlattened[x + 1]}x${imageFlattened[x + 2]}`;
@@ -66,7 +67,7 @@ async function compress(image) {
             currentColor = doesColorExist;
         }
 
-        if (currentColor == previousFrame[x]) {
+        if ((currentColor == previousFrame[x] || (compressionLevel > 20 && Math.random() * 6 > compressionLevel - 20)) && !full) {
             currentColor = -2
         }
 
@@ -108,7 +109,7 @@ async function screenshotToArray() {
     return img
 }
 
-async function sendFrame(ws) {
+async function sendFrame(ws, full) {
     busy = true
     const startTime = Date.now();
     
@@ -116,7 +117,7 @@ async function sendFrame(ws) {
     console.log(`Finished screenshot in ${(Date.now() - startTime)}ms`);
     busy = false
 
-    const compressedImage = await compress(imgArray);
+    const compressedImage = await compress(imgArray, full);
     console.log(`Finished image compression in ${(Date.now() - startTime)}ms`);
 
     const message = JSON.stringify({ type: 'frame', data: compressedImage, time: Date.now() });
@@ -132,7 +133,13 @@ async function handleClient(ws, req) {
         if (data.type === 'connect') {
             console.log(`Connecting to game: ${data.game}`);
         } else if (data.type === 'getFrame') {
-            if (!busy) await sendFrame(ws);
+            if (!busy) await sendFrame(ws, false);
+        } else if (data.type === 'getFrameFull') {
+            if (!busy) await sendFrame(ws, true);
+        } else if (data.type === 'setCompressionQuality') {
+            compressionLevel = data.data
+        } else if (data.type === 'setResizeFactor') {
+            resizeFactor = data.data
         }
     });
 
