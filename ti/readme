@@ -1,1 +1,44 @@
-ti
+README
+Overview
+This project consists of two main Python scripts: connectToServer.py and httpTest.py. 
+The connectToServer.py script is responsible for reading sensor data and sending it to a web server,.
+
+Files
+connectToServer.py
+This script connects to a WiFi network, reads data from a distance sensor and a temperature sensor, and sends the data to a specified web server.
+
+Classes:
+DistSensor: Handles the distance sensor.
+
+Functions:
+conn(ssid, password, max_wait=10): 
+    ssid = your network ssid
+    password = your network password
+    max_wait = a specified max number of seconds the program has to connect to the network defaulted to 10
+
+    Connects to the WiFi network.
+
+calculate_temperature(): 
+    Reads and calculates the temperature from the sensor on adc(4).
+
+send(data): 
+    data = the specified data to send
+
+    Sends the sensor data to the web server.
+
+Main Loop: Continuously reads sensor data and sends it to the web server.
+
+Usage
+Replace the ssid and password variables with your WiFi credentials.
+Replace the url variable with the IP address of your web server.
+Run the script to start sending sensor data to the web server.
+
+
+------------------this will probably be deleted later----------------
+The httpTest.py script serves as a web server to receive and display the sensor data for testing purposes.
+
+Run the script to start the Flask web server.
+The server will be accessible at http://0.0.0.0:8080.
+The web page will display the latest sensor data received.
+reload the page to display
+
