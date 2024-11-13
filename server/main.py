@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def receive_data():
-    receive_data_rpi()
+    receive_data_rpi(request)
 
 # request data with http://127.0.0.1:8080/getGameData?id=3
 @app.route('/getGameData')
@@ -23,3 +23,4 @@ def getGameData():
     return jsonify({"success": 404, "data": "id is out of bounds"})
     
 app.run(host='0.0.0.0', port=8080)
+

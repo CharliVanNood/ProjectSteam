@@ -1,11 +1,9 @@
-from flask import Flask, request, jsonify, render_template_string
-
-app = Flask(__name__)
+from flask import jsonify
 
 # Store the latest data
 latest_data = {"temperature": None, "distance": None}
 
-def receive_data_rpi():
+def receive_data_rpi(request):
     global latest_data
     data = request.get_json()
     if data:
