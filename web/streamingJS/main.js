@@ -16,6 +16,121 @@ frames = 0
 fps = 20
 full = 60
 
+connectedToServer = false
+
+document.addEventListener("keydown", (e) => {
+    console.log(e)
+    switch (e.key) {
+        case "w":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "w"}));
+        break;
+        case "a":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "a"}));
+        break;
+        case "s":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "s"}));
+        break;
+        case "d":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "d"}));
+        break;
+        case "e":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "e"}));
+        break;
+        case "q":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "q"}));
+        break;
+        case "1":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "1"}));
+        break;
+        case "2":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "2"}));
+        break;
+        case "3":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "3"}));
+        break;
+        case "4":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "4"}));
+        break;
+        case "5":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "5"}));
+        break;
+        case "6":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "6"}));
+        break;
+        case "7":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "7"}));
+        break;
+        case "8":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "8"}));
+        break;
+        case "9":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "9"}));
+        break;
+        case "0":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "0"}));
+        break;
+        case "shift":
+            socket.send(JSON.stringify({"type": "keyDown", "key": "shift"}));
+        break;
+    }
+})
+document.addEventListener("keyup", (e) => {
+    console.log(e)
+    switch (e.key) {
+        case "w":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "w"}));
+        break;
+        case "a":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "a"}));
+        break;
+        case "s":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "s"}));
+        break;
+        case "d":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "d"}));
+        break;
+        case "e":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "e"}));
+        break;
+        case "q":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "q"}));
+        break;
+        case "1":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "1"}));
+        break;
+        case "2":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "2"}));
+        break;
+        case "3":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "3"}));
+        break;
+        case "4":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "4"}));
+        break;
+        case "5":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "5"}));
+        break;
+        case "6":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "6"}));
+        break;
+        case "7":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "7"}));
+        break;
+        case "8":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "8"}));
+        break;
+        case "9":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "9"}));
+        break;
+        case "0":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "0"}));
+        break;
+        case "shift":
+            socket.send(JSON.stringify({"type": "keyUp", "key": "shift"}));
+        break;
+    }
+})
+
 function requestFrames() {
     if (full <= 0) {
         socket.send(JSON.stringify({"type": "getFrameFull"}));
@@ -28,9 +143,10 @@ socket.onopen = function() {
     console.log("Connected to WebSocket server");
 
     socket.send(JSON.stringify({"type": "connect", "game": 2}));
+    connectedToServer = true
     
     //socket.send(JSON.stringify({"type": "getFrame"}));
-    setInterval(requestFrames, 50)
+    setInterval(requestFrames, 25)
 };
 
 socket.onmessage = function(event) {
