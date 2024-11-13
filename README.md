@@ -38,4 +38,4 @@ On the analytics page it's possible to see your gaming data, this will give you 
 # The streaming of game footage and user input
 ## Why nodejs?
 For the streaming part of our application we've decided to use NodeJS, This has been chosen cause of the performance benefits over python.
-This speed is necessary to keep king low and detail high.
+This speed is necessary to keep king low and detail high.  
