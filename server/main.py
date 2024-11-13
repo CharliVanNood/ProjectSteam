@@ -14,6 +14,7 @@ app = Flask(__name__)
 def receive_data():
     receive_data_rpi()
 
+# request data with http://127.0.0.1:8080/getGameData?id=3
 @app.route('/getGameData')
 def getGameData():
     game_id = request.args.get('id')
