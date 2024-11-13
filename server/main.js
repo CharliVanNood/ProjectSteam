@@ -4,6 +4,8 @@ const sharp = require('sharp');
 const fs = require('fs');
 const screenshot = require("screenshot-desktop");
 
+keysDown = {}
+
 resizeFactor = 4
 useHex = true
 compressionLevel = 19
@@ -140,6 +142,10 @@ async function handleClient(ws, req) {
             compressionLevel = data.data
         } else if (data.type === 'setResizeFactor') {
             resizeFactor = data.data
+        } else if (data.type === 'keyDown') {
+            keysDown[data.key] = true
+        } else if (data.type === 'keyUp') {
+            keysDown[data.key] = false
         }
     });
 
