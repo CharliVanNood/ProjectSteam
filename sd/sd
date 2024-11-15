@@ -1,0 +1,35 @@
+import subprocess
+
+# Hieronder de naam van de virtuele machine. Van virutalbox <--
+VM_NAAM = "Ubuntu_Desktop"
+
+def start_vm():
+    """Start de virtuele machine."""
+    try:
+        result = subprocess.run(["VBoxManage", "startvm", VM_NAAM, "--type", "headless"], check=True, capture_output=True, text=True)
+        print(f"VM '{VM_NAAM}' succesvol gestart.")
+    except subprocess.CalledProcessError as e:
+        print(f"Fout bij het starten van VM '{VM_NAAM}': {e.stderr}")
+
+def stop_vm():
+    """Stop de virtuele machine."""
+    try:
+        result = subprocess.run(["VBoxManage", "controlvm", VM_NAAM, "acpipowerbutton"], check=True, capture_output=True, text=True)
+        print(f"VM '{VM_NAAM}' wordt gestopt...")
+    except subprocess.CalledProcessError as e:
+        print(f"Fout bij het stoppen van VM '{VM_NAAM}': {e.stderr}")
+
+def main():
+    actie = input("Typ 'start' om de VM te starten of 'stop' om de VM te stoppen: ").strip().lower()
+    
+    if actie == "start":
+        start_vm()
+    elif actie == "stop":
+        stop_vm()
+    else:
+        print("Ongeldige invoer. Typ 'start' of 'stop'.")
+
+if __name__ == "__main__":
+    main()
+
+   
