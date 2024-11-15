@@ -35,8 +35,8 @@ On the analytics page it's possible to see your gaming data, this will give you 
 - Search
     - Game
 
-## virtual machine handling
-# starting and stopping virtual machines
+# virtual machine handling
+## starting and stopping virtual machines
 added a python program that can run a virtual machine on ubuntu.
 
 

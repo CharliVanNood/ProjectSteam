@@ -1,0 +1,10 @@
+<FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css)$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "https://steamecho.com"
+    </IfModule>
+</FilesMatch>
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
