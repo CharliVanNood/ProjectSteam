@@ -35,6 +35,11 @@ Op de analytics page is het mogelijk uw data in te zien en up to date te blijven
 - Search
     - Game
 
+## virtual machine handling
+# starting and stopping virtual machines
+python programma dat een virtual machine op ubuntu kan opstarten is toegevoegd.
+    
+
 # Het streamen van game beeld en user input
 ## Waarom nodejs?
 Voor het streaming deel van het programma maken wij gebruik van nodejs, dit is omdat nodejs op sommige vlakken veel sneller is dan python.
