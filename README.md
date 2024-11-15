@@ -25,7 +25,7 @@ On the profile page it's possible to add friends and edit your profile.
 On the search page it's possible to discover new games or play ones you've played previously.
 
 ## The Analytics Page
-On the analytics page it's possible to see your gaming data, this will give you an idea of playtime and gaming trends.
+On the analytics page it's possible to see your gaming data, this will give you an idea of playtime and gaming trends. this data will be stored in a central database so statistics can be compared to others
 
 ## Available Pages
 - Home
