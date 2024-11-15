@@ -6,12 +6,15 @@ const screenshot = require("screenshot-desktop");
 
 keysDown = {}
 
-resizeFactor = 4
+resizeFactor = 5
 useHex = true
 compressionLevel = 19
 
-screenWidth = robot.getScreenSize().width
-screenHeight = robot.getScreenSize().height
+screenWidth = 1920//robot.getScreenSize().width
+screenHeight = 1080//robot.getScreenSize().height
+
+console.log(screenWidth)
+console.log(screenHeight)
 
 busy = false
 

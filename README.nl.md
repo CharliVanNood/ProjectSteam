@@ -25,7 +25,7 @@ Op de profile page is het mogelijk om vrienden toe te voegen en uw profiel aan t
 Op de search page is het mogelijk nieuwe games te ontdekken of terug te vinden.
 
 ## De Analytics Page
-Op de analytics page is het mogelijk uw data in te zien en up to date te blijven met de nieuwste trends.
+Op de analytics page is het mogelijk uw data in te zien en up to date te blijven met de nieuwste trends. Deze data zal opgeslagen worden in een centrale database zodat deze te vergelijken zijn met andere datasets
 
 ## Beschikbare pagina's
 - Home
