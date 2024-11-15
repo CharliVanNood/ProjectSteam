@@ -35,6 +35,11 @@ On the analytics page it's possible to see your gaming data, this will give you 
 - Search
     - Game
 
+## virtual machine handling
+# starting and stopping virtual machines
+added a python program that can run a virtual machine on ubuntu.
+
+
 # The streaming of game footage and user input
 ## Why nodejs?
 For the streaming part of our application we've decided to use NodeJS, This has been chosen cause of the performance benefits over python.
