@@ -2,11 +2,13 @@ const canvas = document.getElementById("gameWindow")
 const ctx = canvas.getContext("2d")
 const socket = new WebSocket("ws://localhost:8765");
 
-var resizeFactor = 4
+var resizeFactor = 5
 const useHex = true
 var compressionLevel = 20
 
-var gameResolution = [1920 / resizeFactor, 1080 / resizeFactor]
+const screenWidth = 1920
+const screenHeight = 1080
+var gameResolution = [screenWidth / resizeFactor, screenHeight / resizeFactor]
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
