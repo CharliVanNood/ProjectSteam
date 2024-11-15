@@ -35,8 +35,8 @@ Op de analytics page is het mogelijk uw data in te zien en up to date te blijven
 - Search
     - Game
 
-## virtual machine handling
-# starting and stopping virtual machines
+# virtual machines
+## starten en stoppen van virtual machines
 python programma dat een virtual machine op ubuntu kan opstarten is toegevoegd.
     
 
